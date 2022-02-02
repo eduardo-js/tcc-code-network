@@ -1,0 +1,13 @@
+{
+  "clearMocks": true,
+  "coverageDirectory": "coverage",
+  "coverageProvider": "v8",
+  "moduleNameMapper": { "@/(.*)$": "<rootDir>/src/$1" },
+  "preset": "ts-jest",
+  "testEnvironment": "node",
+  "setupFiles": ["dotenv/config"],
+  "globalSetup": "<rootDir>/test/EnvSetup.ts",
+  "testMatch": [ "**/__tests__/**/*.[jt]s?(x)", "**/?(*.)+(spec|test).[jt]s?(x)" ]
+}
+
+
