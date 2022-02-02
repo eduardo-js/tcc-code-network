@@ -1,0 +1,17 @@
+export enum UrlPaths {
+  home = '/',
+  register = '/register',
+  login = '/login',
+  error = '/error',
+  video = '/video',
+  recoverPassword = '/recover-password',
+  knowledge = '/knowledge',
+  tests = '/tests',
+  enterprises = '/enterprises',
+  areas = '/areas',
+  user = '/user',
+  course = '/course',
+  createCourse = '/create-course',
+  courses = '/courses',
+  jobs = '/jobs',
+}
