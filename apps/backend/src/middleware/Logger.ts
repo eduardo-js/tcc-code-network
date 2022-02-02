@@ -20,6 +20,7 @@ const loggerInfo = winston.createLogger({
 const logger = (req: Request, res: Response, next: NextFunction) => {
   res.on('finish', () => {
     if (req.body?.password) req.body.password = '';
+    if (res.locals?.password) res.locals.password = '';
     loggerInfo.info({
       timestamp: new Date().toISOString(),
       id: randomUUID(),
