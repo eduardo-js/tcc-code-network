@@ -15,7 +15,7 @@ export const Jobs = () => {
       setJobs(jobData);
     }
     initialize();
-  });
+  }, []);
 
   const subscribe = async (jobId: any) => {
     try {

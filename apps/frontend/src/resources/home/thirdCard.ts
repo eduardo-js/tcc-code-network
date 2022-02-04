@@ -1,3 +1,4 @@
+import { HomeThirdCard } from '../../assets';
 import { InfoSectionProps } from '../../components';
 
 export const homeThirdCard: InfoSectionProps = {
@@ -6,7 +7,7 @@ export const homeThirdCard: InfoSectionProps = {
   description:
     'Encontre a oportunidade ideal para deslanchar sua carreira no mercado de tecnologia! Já estão te esperando!',
   headline: 'Preparado? Então inicie sua carreira!',
-  img: require('../../assets/jobs.svg'),
+  img: HomeThirdCard,
   imgStart: false,
   lightTopLine: false,
   start: true,

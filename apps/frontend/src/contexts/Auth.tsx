@@ -1,7 +1,7 @@
+import jwt_decode from 'jwt-decode';
 import { IUser } from 'models';
 import React, { createContext, useContext, useEffect, useState } from 'react';
-import ApiService, { apiService } from '../services/Api';
-
+import ApiService from '../services/Api';
 interface UserInfo {
   _id: string;
   name: string;
@@ -16,14 +16,13 @@ interface AuthContextData {
 }
 
 const decodeToken = (token: string): UserInfo => {
-  const payload = atob(token.split('.')[1]);
-  const tokenDecoded = JSON.parse(payload);
+  const tokenDecoded = jwt_decode(token);
   return tokenDecoded as UserInfo;
 };
 
 export const saveUserInfoOnStorage = (token: string) => {
   const userInfo = decodeToken(token);
-  apiService.defaults.headers.Authorization = `Bearer ${token}`;
+  ApiService.setBearer(token);
   sessionStorage.setItem('@code-network:token', token);
   sessionStorage.setItem('@code-network:user', JSON.stringify(userInfo));
 };
@@ -41,7 +40,7 @@ const AuthProvider: React.FC = ({ children }) => {
 
     if (storageToken && storageUser) {
       setUser(JSON.parse(storageUser));
-      apiService.defaults.headers.Authorization = `Bearer ${storageToken}`;
+      ApiService.setBearer(storageToken);
     }
   }, []);
 
@@ -49,7 +48,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const { token } = await ApiService.login(data);
     const user = decodeToken(token);
     setUser(user);
-    apiService.defaults.headers.Authorization = `Bearer ${token}`;
+    ApiService.setBearer(token);
     sessionStorage.setItem('@code-network:token', token);
     sessionStorage.setItem('@code-network:user', JSON.stringify(user));
   };

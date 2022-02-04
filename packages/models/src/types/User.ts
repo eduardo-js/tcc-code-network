@@ -1,13 +1,14 @@
 import { Permission, Technology } from '../enums';
 
-interface CourseProgress {
+export type CourseProgress = {
   _id: string;
   class: number;
-}
+  module: number;
+};
 
-interface JobProgress {
+export type JobProgress = {
   _id: string;
-}
+};
 
 export type IUser = {
   _id: string;

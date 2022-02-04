@@ -21,6 +21,8 @@ const logger = (req: Request, res: Response, next: NextFunction) => {
   res.on('finish', () => {
     if (req.body?.password) req.body.password = '';
     if (res.locals?.password) res.locals.password = '';
+    if (res.locals?.image) res.locals.image = '';
+    if (req.originalUrl.startsWith('/api/v1/course')) res.locals = { any: ' ' };
     loggerInfo.info({
       timestamp: new Date().toISOString(),
       id: randomUUID(),

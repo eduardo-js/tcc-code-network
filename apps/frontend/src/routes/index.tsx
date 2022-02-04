@@ -3,6 +3,7 @@ import { Route, Switch } from 'react-router-dom';
 import { UrlPaths } from '../enums';
 import { Course, Courses, CreateCourse, Home, Jobs, Register } from '../pages';
 import { Login } from '../pages/login';
+import { NotFound } from '../pages/not-found';
 import { User } from '../pages/user';
 import PrivateRoute from './PrivateRoutes';
 
@@ -25,7 +26,7 @@ const Routes = () => {
       <PrivateRoute exact path={UrlPaths.user} component={User} />
       {/* <PrivateRoute exact path={UrlPaths.video} component={Video} /> */}
 
-      {/* <Route path="*" component={NotFound} /> */}
+      <Route path="*" component={NotFound} />
     </Switch>
   );
 };

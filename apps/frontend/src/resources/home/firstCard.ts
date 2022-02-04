@@ -1,3 +1,4 @@
+import { HomeFirstCard } from '../../assets';
 import { InfoSectionProps } from '../../components';
 
 export const homeFirstCard: InfoSectionProps = {
@@ -6,7 +7,7 @@ export const homeFirstCard: InfoSectionProps = {
   description:
     'Nós te ajudamos a se tornar um referência no mundo da tecnologia! Aprenda, estude e pratique as ferramentas utilizadas e pedidas no mercado!',
   headline: 'Desenvolva seus conhecimentos técnicos',
-  img: require('../../assets/homeFirstCard.svg'),
+  img: HomeFirstCard,
   imgStart: false,
   lightTopLine: false,
   start: true,

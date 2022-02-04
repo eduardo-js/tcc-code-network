@@ -12,10 +12,11 @@ const retrieveVideo = async (req: Request, res: Response): Promise<void> => {
   const file = await File.findById(filename);
 
   if (!file) throw new NotFound();
+  const CHUNK_SIZE = 10 ** 6;
 
   const videoSize = file.length;
   const start = Number(range.replace(/\D/g, ''));
-  const end = videoSize - 1;
+  const end = Math.min(start + CHUNK_SIZE, videoSize - 1);
 
   const contentLength = end - start + 1;
   const headers = {

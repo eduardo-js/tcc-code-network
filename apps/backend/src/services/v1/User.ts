@@ -1,7 +1,7 @@
 import { LeanDocument } from 'mongoose';
 import { AuthService } from '../../services';
 import { UserRepository } from '../../repositories';
-import { IUser } from 'models';
+import { CourseProgress, IUser } from 'models';
 import { NotCreated, NotFound, Unauthorized } from '../../errors';
 import { Utils } from '../../utils';
 
@@ -9,8 +9,8 @@ export type IUserService = {
   getUser(_id: string): Promise<LeanDocument<IUser>>;
   createUser(userData: IUser): Promise<void>;
   deleteUser(_id: string): Promise<LeanDocument<IUser>>;
-  patchUserCourse(_id: string, courseId: string): Promise<void>;
-  patchUserJob(_id: string, jobId: string): Promise<void>;
+  patchUserCourse(_id: string, courseProgress: CourseProgress): Promise<void>;
+  // patchUserJob(_id: string, jobId: string): Promise<void>;
   login(_id: string, password: string): Promise<Record<string, string>>;
 };
 
@@ -23,7 +23,7 @@ export default class UserService {
   }
 
   async getUser(_id: string): Promise<LeanDocument<IUser>> {
-    const user = await this.userRepository.getUser(_id);
+    const user = await this.userRepository.findById(_id);
     return user;
   }
 
@@ -38,26 +38,33 @@ export default class UserService {
     return user;
   }
 
-  async patchUserCourse(_id: string, courseId: string): Promise<void> {
-    const { courses } = await this.userRepository.getUser(_id);
-    const course = courses.find(course => course._id === courseId);
-    if (!course) {
-      courses.push({ _id: courseId, class: 0 });
-    }
-    await this.userRepository.patchUser(_id, { courses });
+  async patchUser(_id: string, body: Partial<IUser>): Promise<void> {
+    if (body.courses) this.patchUserCourse(_id, body.courses[0]);
   }
 
-  async patchUserJob(_id: string, jobId: string): Promise<void> {
-    const { jobs } = await this.userRepository.getUser(_id);
-    const job = jobs.find(job => job._id === jobId);
-    if (!job) {
-      jobs.push({ _id: jobId });
+  async patchUserCourse(_id: string, courseProgress: CourseProgress): Promise<void> {
+    const course = await this.userRepository.findOne({ _id, courses: { $elemMatch: { _id: courseProgress._id } } });
+    if (!course) {
+      await this.userRepository.findByIdAndUpdate(_id, { $push: { courses: { ...courseProgress } } });
+      return;
     }
-    await this.userRepository.patchUser(_id, { jobs });
+    await this.userRepository.findOneAndUpdate(
+      { _id, 'course.$._id': courseProgress._id },
+      { class: courseProgress.class, module: courseProgress.module },
+    );
   }
+
+  // async patchUserJob(_id: string, jobId: string): Promise<void> {
+  //   const { jobs } = await this.userRepository.getUser(_id);
+  //   const job = jobs.find(job => job._id === jobId);
+  //   if (!job) {
+  //     jobs.push({ _id: jobId });
+  //   }
+  //   await this.userRepository.patchUser(_id, { jobs });
+  // }
 
   async login(_id: string, password: string): Promise<Record<string, string>> {
-    const user = await this.userRepository.getUser(_id);
+    const user = await this.userRepository.findById(_id);
     if (!user) throw new NotFound();
     if (await Utils.compareHashedInfo(password, user.password)) {
       return { token: this.authService.generateAuthToken(user.name, user._id, user.permission) };

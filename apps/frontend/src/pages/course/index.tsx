@@ -47,7 +47,7 @@ export const Course = () => {
         <h2>{videoName}</h2>
         {videoId && (
           <video width="650" height="700px" controls muted>
-            <source src={`http://localhost:4000/api/upload/?filename=${videoId}`} type="video/mp4"></source>
+            <source src={`http://localhost:4000/api/v1/video/?filename=${videoId}`} type="video/mp4"></source>
           </video>
         )}
         <DefaultButton onClick={closeModal} style={{ margin: '1rem' }}>

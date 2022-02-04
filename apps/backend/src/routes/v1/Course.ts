@@ -4,7 +4,7 @@ import { validateCourseData } from '../../validators';
 
 const routes = Router();
 
-routes.get('/', CourseController.getCourse);
+routes.get('/', CourseController.getCourses);
 
 routes.get('/:_id', CourseController.getCourse);
 

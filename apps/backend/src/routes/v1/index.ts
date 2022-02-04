@@ -10,7 +10,7 @@ const v1 = Router();
 
 v1.use('/user', User);
 v1.use('/course', Course);
-v1.use('/upload', Video);
+v1.use('/video', Video);
 v1.use('/job', Job);
 v1.use('/tests', Test);
 

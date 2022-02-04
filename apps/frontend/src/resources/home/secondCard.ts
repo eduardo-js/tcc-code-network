@@ -1,3 +1,4 @@
+import { HomeSecondCard } from '../../assets';
 import { InfoSectionProps } from '../../components';
 
 export const homeSecondCard: InfoSectionProps = {
@@ -6,7 +7,7 @@ export const homeSecondCard: InfoSectionProps = {
   description:
     'Já possui os requisitos que são pedidos nas entrevistas? Simule o resultado numa situação real! Te ajudamos a melhorar e para garantir aquela vaga disputada!',
   headline: 'Testes seus conhecimentos',
-  img: require('../../assets/tests.svg'),
+  img: HomeSecondCard,
   imgStart: true,
   lightBg: false,
   lightText: true,

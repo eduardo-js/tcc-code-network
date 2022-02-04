@@ -44,9 +44,7 @@ class UserController implements IUserController {
 
   patchUser = async (req: Request, res: Response): Promise<void> => {
     const { userId } = req.headers;
-    const { course, job } = req.body;
-    if (course) await this.userService.patchUserCourse(userId as string, course);
-    if (job) await this.userService.patchUserJob(userId as string, job);
+    await this.userService.patchUser(userId as string, req.body as Partial<IUser>);
     res.end();
   };
 }

@@ -16,7 +16,7 @@ class App {
   init() {
     this.app.use(express.json());
     this.app.use(cors({ allowedHeaders: '*', origin: '*', methods: '*' }));
-    // if (env.where !== 'DEV') this.app.use(AuthHandler);
+    this.app.use(AuthHandler);
     this.app.use(logger);
     this.app.use(ResBodySender);
     this.routes = new RouteResolver(this.app);

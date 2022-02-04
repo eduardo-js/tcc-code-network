@@ -17,10 +17,16 @@ export const Courses = () => {
     initialize();
   }, []);
 
-  const subscribe = async (courseId: any) => {
+  const subscribe = async (courseId: string) => {
     try {
       const body = {
-        courses: courseId,
+        courses: [
+          {
+            _id: courseId,
+            class: 0,
+            module: 0,
+          },
+        ],
       };
       await ApiService.patchUser(body);
     } catch (error) {

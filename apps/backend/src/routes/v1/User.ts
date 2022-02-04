@@ -1,6 +1,6 @@
 import { Router } from 'express';
 import { UserController } from '../../controllers';
-import { validateUserData, validateLoginData } from '../../validators';
+import { validateUserData, validateLoginData, validatePatchUser } from '../../validators';
 
 const routes = Router();
 
@@ -12,6 +12,6 @@ routes.post('/login', validateLoginData, UserController.login);
 
 routes.delete('/:_id', UserController.deleteUser);
 
-routes.patch('/', UserController.patchUser);
+routes.patch('/', validatePatchUser, UserController.patchUser);
 
 export default routes;

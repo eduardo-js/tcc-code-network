@@ -24,7 +24,7 @@ export const validateCourseData = celebrate({
     description: Joi.string().required(),
     details: Joi.array().required(),
     image: Joi.string().required(),
-    technologies: Joi.number()
+    technologies: Joi.string()
       .valid(...Object.values(Technology))
       .required(),
     lessons: Joi.array()
@@ -38,5 +38,24 @@ export const validateCourseData = celebrate({
         }),
       )
       .required(),
+  }),
+});
+
+export const validatePatchUser = celebrate({
+  [Segments.BODY]: Joi.object().keys({
+    name: Joi.string(),
+    password: Joi.string(),
+    telephone: Joi.string(),
+    ownership: Joi.array().items(Joi.string()),
+    technologies: Joi.string().valid(...Object.values(Technology)),
+    certificates: Joi.array().items(Joi.string()),
+    courses: Joi.array().items(
+      Joi.object().keys({
+        _id: Joi.string(),
+        class: Joi.number(),
+        module: Joi.number(),
+      }),
+    ),
+    jobs: Joi.array().items(Joi.string()),
   }),
 });

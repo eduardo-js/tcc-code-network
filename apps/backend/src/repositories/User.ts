@@ -13,15 +13,17 @@ export default class UserRepository {
     return this.model.create(data);
   }
 
-  async getUsers(_id: Record<string, string> = {}): Promise<LeanDocument<IUser[]>> {
-    return this.model.find(_id).lean().exec();
+  async findById(_id: string, query = {}): Promise<LeanDocument<IUser>> {
+    return this.model.findById(_id, query);
   }
-  async getUser(_id: string): Promise<LeanDocument<IUser>> {
-    return this.model.findById(_id).lean().exec();
-  }
-
-  async patchUser(_id: string, update: UpdateQuery<IUser>): Promise<LeanDocument<IUser>> {
+  async findByIdAndUpdate(_id: string, update: UpdateQuery<IUser>): Promise<LeanDocument<IUser>> {
     return this.model.findByIdAndUpdate(_id, update).lean().exec();
+  }
+  async findOneAndUpdate(searchQuery = {}, update: UpdateQuery<IUser>): Promise<LeanDocument<IUser>> {
+    return this.model.findOneAndUpdate(searchQuery, update).lean().exec();
+  }
+  async findOne(searchQuery = {}): Promise<LeanDocument<IUser>> {
+    return this.model.findOne(searchQuery).lean().exec();
   }
 
   async deleteUser(_id: string): Promise<LeanDocument<IUser>> {
