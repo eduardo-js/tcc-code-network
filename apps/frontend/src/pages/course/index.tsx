@@ -50,7 +50,22 @@ export const Course = () => {
             <source src={`http://localhost:4000/api/v1/video/?filename=${videoId}`} type="video/mp4"></source>
           </video>
         )}
-        <DefaultButton onClick={closeModal} style={{ margin: '1rem' }}>
+        <DefaultButton
+          onClick={() => {
+            const body = {
+              courses: [
+                {
+                  _id: courseId,
+                  class: 1,
+                  module: 1,
+                },
+              ],
+            };
+            ApiService.patchUser(body);
+            closeModal;
+          }}
+          style={{ margin: '1rem' }}
+        >
           close
         </DefaultButton>
       </Modal>
