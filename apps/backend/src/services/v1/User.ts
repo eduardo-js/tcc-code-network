@@ -23,7 +23,7 @@ export default class UserService {
   }
 
   async getUser(_id: string): Promise<LeanDocument<IUser>> {
-    const user = await this.userRepository.findById(_id);
+    const user = await this.userRepository.findById(_id, '-password');
     return user;
   }
 
