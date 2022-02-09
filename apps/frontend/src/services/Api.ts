@@ -55,9 +55,6 @@ class ApiService {
   async login(data: Partial<IUser>): Promise<AuthResponse> {
     return await this.client.post('/v1/user/login', data);
   }
-  async playVideo(_id: string) {
-    return await this.client.get(`/v1/video/${_id}`);
-  }
   async uploadVideo(file: FormData) {
     return await this.client.post(`/v1/video/`, file, {
       headers: { 'Content-Type': 'multipart/form-data' },
