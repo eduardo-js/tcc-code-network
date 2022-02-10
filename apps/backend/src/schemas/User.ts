@@ -3,8 +3,7 @@ import { Permission, Technology, IUser } from 'models';
 
 const CourseProgressSchema = new Schema({
   _id: { type: String, required: true },
-  class: { type: Number, required: true, default: 0 },
-  module: { type: Number, required: true, default: 0 },
+  lesson: { type: Number, required: true, default: 0 },
 });
 const JobProgressSchema = new Schema({
   _id: { type: String, required: true },

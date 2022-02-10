@@ -50,7 +50,7 @@ export default class UserService {
     }
     await this.userRepository.findOneAndUpdate(
       { _id, 'course.$._id': courseProgress._id },
-      { class: courseProgress.class, module: courseProgress.module },
+      { lesson: courseProgress.lesson },
     );
   }
 

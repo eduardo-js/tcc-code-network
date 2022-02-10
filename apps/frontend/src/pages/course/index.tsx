@@ -12,6 +12,7 @@ export const Course = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [videoId, setVideoId] = useState('');
   const [videoName, setVideoName] = useState('');
+  const [lessonNumber, setLessonNumber] = useState(0);
 
   useEffect(() => {
     async function initialize() {
@@ -21,10 +22,11 @@ export const Course = () => {
     initialize();
   }, []);
 
-  const handleClick = (videoId: string, videoName: string) => {
+  const handleClick = (videoId: string, videoName: string, lessonNumber: number) => {
     setIsOpen(true);
     setVideoId(videoId);
-    setVideoName(videoId);
+    setVideoName(videoName);
+    setLessonNumber(lessonNumber);
   };
 
   function closeModal() {
@@ -50,8 +52,7 @@ export const Course = () => {
               courses: [
                 {
                   _id: courseId,
-                  class: 1,
-                  module: 1,
+                  lesson: lessonNumber,
                 },
               ],
             };
@@ -67,20 +68,23 @@ export const Course = () => {
       <h1 style={{ padding: '5rem ' }}>{course?.name}</h1>
       {course &&
         course?.lessons?.map(
-          (lesson: {
-            lessonDescription: any;
-            lessonName: any;
-            lessonImage: any;
-            videoPath: string;
-            videoName: string;
-          }) => {
+          (
+            lesson: {
+              lessonDescription: any;
+              lessonName: any;
+              lessonImage: any;
+              videoPath: string;
+              videoName: string;
+            },
+            index,
+          ) => {
             const courseSection: InfoSectionProps = {
               alt: '',
               buttonLabel: 'Assistir',
               description: lesson.lessonDescription || '',
               headline: lesson.lessonName || '',
               img: lesson?.lessonImage || lesson.lessonName,
-              onClick: () => handleClick(lesson.videoPath, lesson.videoName),
+              onClick: () => handleClick(lesson.videoPath, lesson.videoName, index),
             };
             return <InfoSection {...courseSection} />;
           },

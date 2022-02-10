@@ -2,8 +2,7 @@ import { Permission, Technology } from '../enums';
 
 export type CourseProgress = {
   _id: string;
-  class: number;
-  module: number;
+  lesson: number;
 };
 
 export type JobProgress = {

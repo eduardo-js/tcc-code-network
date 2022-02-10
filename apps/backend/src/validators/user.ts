@@ -52,8 +52,7 @@ export const validatePatchUser = celebrate({
     courses: Joi.array().items(
       Joi.object().keys({
         _id: Joi.string(),
-        class: Joi.number(),
-        module: Joi.number(),
+        lesson: Joi.number(),
       }),
     ),
     jobs: Joi.array().items(Joi.string()),

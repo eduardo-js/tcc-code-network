@@ -23,8 +23,7 @@ export const Courses = () => {
         courses: [
           {
             _id: courseId,
-            class: 0,
-            module: 0,
+            lesson: 0,
           },
         ],
       };
