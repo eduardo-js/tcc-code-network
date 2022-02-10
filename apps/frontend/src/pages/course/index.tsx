@@ -30,12 +30,6 @@ export const Course = () => {
   function closeModal() {
     setIsOpen(false);
   }
-  let subtitle: string;
-
-  function openModal() {
-    setIsOpen(true);
-  }
-
   return (
     <>
       <Modal
@@ -62,7 +56,7 @@ export const Course = () => {
               ],
             };
             ApiService.patchUser(body);
-            closeModal;
+            closeModal();
           }}
           style={{ margin: '1rem' }}
         >
