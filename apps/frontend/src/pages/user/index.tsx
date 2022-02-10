@@ -49,13 +49,13 @@ export const User = () => {
           <div>{user!.name!}</div>
           <div style={{ paddingTop: '3rem' }}>
             <BsBook style={{ marginRight: '1rem', width: '1.2rem', height: 'auto' }} />
-            <button onClick={() => showContent('cursos')} style={{ fontSize: '1.4rem' }}>
+            <button onClick={() => showContent('cursos')} style={{ fontSize: '1.2rem' }}>
               Meus Cursos
             </button>
           </div>
           <div style={{ margin: '1rem' }}>
             <RiSuitcaseLine style={{ marginRight: '1rem', width: '1.2rem', height: 'auto' }} />
-            <button onClick={() => showContent('vagas')} style={{ fontSize: '1.4rem' }}>
+            <button onClick={() => showContent('vagas')} style={{ fontSize: '1.2rem' }}>
               Minhas Vagas
             </button>
           </div>
@@ -77,7 +77,7 @@ export const User = () => {
               <>
                 <img src={NotFound} style={{ width: '80%', height: '80%' }}></img>
                 <h1 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
-                  Parece que não tem nada por aqui, cadastre-se em de nossos cursos!
+                  Parece que não tem nada por aqui, cadastre-se em um de nossos cursos!
                 </h1>
               </>
             ))}
@@ -95,7 +95,7 @@ export const User = () => {
               <>
                 <img src={NotFound} style={{ width: '80%', height: '80%' }}></img>
                 <h1 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
-                  Parece que não tem nada por aqui, cadastre-se em uma das vagas!
+                  Parece que não tem nada por aqui, cadastre-se em uma de nossas vagas!
                 </h1>
               </>
             ))}
