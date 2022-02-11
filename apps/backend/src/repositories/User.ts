@@ -22,8 +22,8 @@ export default class UserRepository {
   async findOneAndUpdate(searchQuery = {}, update: UpdateQuery<IUser>): Promise<LeanDocument<IUser>> {
     return this.model.findOneAndUpdate(searchQuery, update).lean().exec();
   }
-  async findOne(searchQuery = {}): Promise<LeanDocument<IUser>> {
-    return this.model.findOne(searchQuery).lean().exec();
+  async findOne(_id: string, searchQuery = {}): Promise<LeanDocument<IUser>> {
+    return this.model.findOne({ _id }, searchQuery).lean().exec();
   }
 
   async deleteUser(_id: string): Promise<LeanDocument<IUser>> {

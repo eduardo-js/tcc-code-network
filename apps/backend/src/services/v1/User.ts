@@ -43,25 +43,17 @@ export default class UserService {
   }
 
   async patchUserCourse(_id: string, courseProgress: CourseProgress): Promise<void> {
-    const course = await this.userRepository.findOne({ _id, courses: { $elemMatch: { _id: courseProgress._id } } });
-    if (!course) {
+    const user = await this.userRepository.findOne(_id, { courses: { $elemMatch: { _id: courseProgress._id } } });
+    if (!user) {
       await this.userRepository.findByIdAndUpdate(_id, { $push: { courses: { ...courseProgress } } });
       return;
     }
+    if (user.courses[0].lesson > courseProgress.lesson) return;
     await this.userRepository.findOneAndUpdate(
-      { _id, 'course.$._id': courseProgress._id },
-      { lesson: courseProgress.lesson },
+      { _id, courses: { $elemMatch: { _id: courseProgress._id } } },
+      { 'courses.$.lesson': courseProgress.lesson },
     );
   }
-
-  // async patchUserJob(_id: string, jobId: string): Promise<void> {
-  //   const { jobs } = await this.userRepository.getUser(_id);
-  //   const job = jobs.find(job => job._id === jobId);
-  //   if (!job) {
-  //     jobs.push({ _id: jobId });
-  //   }
-  //   await this.userRepository.patchUser(_id, { jobs });
-  // }
 
   async login(_id: string, password: string): Promise<Record<string, string>> {
     const user = await this.userRepository.findById(_id);
