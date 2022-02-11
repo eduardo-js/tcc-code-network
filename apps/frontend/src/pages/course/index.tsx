@@ -3,9 +3,11 @@ import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
 import { DefaultButton, InfoSection, InfoSectionProps } from '../../components';
+import { useAuth } from '../../contexts/Auth';
 import ApiService from '../../services/Api';
 
 export const Course = () => {
+  const { user } = useAuth();
   const location = useLocation();
   const { courseId } = location.state as Record<string, string>;
   const [course, setCourse] = useState<ICourse>();
@@ -48,14 +50,7 @@ export const Course = () => {
         )}
         <DefaultButton
           onClick={() => {
-            const body = {
-              courses: [
-                {
-                  _id: courseId,
-                  lesson: lessonNumber,
-                },
-              ],
-            };
+            const body = { courses: [{ _id: courseId, lesson: lessonNumber }] };
             ApiService.patchUser(body);
             closeModal();
           }}
@@ -89,6 +84,13 @@ export const Course = () => {
             return <InfoSection {...courseSection} />;
           },
         )}
+      <div style={{ margin: '1rem', textAlign: 'center' }}>
+        {course &&
+          (lessonNumber === course!.lessons!.length! - 1 ||
+            user?.courses?.find(course => course._id === courseId)?.lesson === course!.lessons!.length! - 1) && (
+            <DefaultButton>Fazer Prova</DefaultButton>
+          )}
+      </div>
     </>
   );
 };
