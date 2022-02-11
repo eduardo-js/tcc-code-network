@@ -2,22 +2,17 @@ import jwt_decode from 'jwt-decode';
 import { IUser } from 'models';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import ApiService from '../services/Api';
-interface UserInfo {
-  _id: string;
-  name: string;
-  permission: number;
-}
 
 interface AuthContextData {
   signed: boolean;
-  user: UserInfo | null;
+  user: IUser | null;
   Login(token: Partial<IUser>): Promise<void>;
   Logout(unauthorized?: boolean): void;
 }
 
-const decodeToken = (token: string): UserInfo => {
+const decodeToken = (token: string): IUser => {
   const tokenDecoded = jwt_decode(token);
-  return tokenDecoded as UserInfo;
+  return tokenDecoded as IUser;
 };
 
 export const saveUserInfoOnStorage = (token: string) => {
@@ -32,7 +27,7 @@ const getAuthToken = () => localStorage.getItem('@code-network:token');
 const AuthContext: React.Context<AuthContextData> = createContext({} as AuthContextData);
 
 const AuthProvider: React.FC = ({ children }) => {
-  const [user, setUser] = useState<UserInfo | null>(null);
+  const [user, setUser] = useState<IUser | null>(null);
 
   useEffect(() => {
     const storageToken = sessionStorage.getItem('@code-network:token');
