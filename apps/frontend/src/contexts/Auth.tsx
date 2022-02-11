@@ -1,5 +1,5 @@
 import jwt_decode from 'jwt-decode';
-import { IUser } from 'models';
+import { AuthToken, IUser } from 'models';
 import React, { createContext, useContext, useEffect, useState } from 'react';
 import ApiService from '../services/Api';
 
@@ -10,9 +10,9 @@ interface AuthContextData {
   Logout(unauthorized?: boolean): void;
 }
 
-const decodeToken = (token: string): IUser => {
+const decodeToken = (token: string): AuthToken => {
   const tokenDecoded = jwt_decode(token);
-  return tokenDecoded as IUser;
+  return tokenDecoded as AuthToken;
 };
 
 export const saveUserInfoOnStorage = (token: string) => {
@@ -41,9 +41,10 @@ const AuthProvider: React.FC = ({ children }) => {
 
   const Login = async (data: Partial<IUser>) => {
     const { token } = await ApiService.login(data);
-    const user = decodeToken(token);
-    setUser(user);
+    const authTokenInfo = decodeToken(token);
     ApiService.setBearer(token);
+    const user = await ApiService.getUser(authTokenInfo._id);
+    setUser(user);
     sessionStorage.setItem('@code-network:token', token);
     sessionStorage.setItem('@code-network:user', JSON.stringify(user));
   };
