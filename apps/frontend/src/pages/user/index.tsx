@@ -73,15 +73,32 @@ export const User = () => {
             </DefaultButton>
           </div>
         </div>
-        <div style={{ flex: '1', backgroundColor: '#F2F7F2' }}>
+        <div style={{ flex: '1', backgroundColor: '#F2F7F2', textAlign: 'center', verticalAlign: 'center' }}>
           {content === 'cursos' &&
             (courseInfo?.length !== 0 ? (
               courseInfo.map(course => {
                 return (
-                  <div style={{ margin: '1rem' }}>
-                    <h1 style={{ margin: '1rem' }}>{course.name}</h1>
-                    <DefaultButton onClick={() => history.push(UrlPaths.course, { courseId: course._id })}>
-                      Acessar
+                  <div
+                    style={{
+                      margin: '1rem',
+                      borderBottom: 'solid',
+                      borderBottomWidth: '1px',
+                      borderBottomColor: 'grey',
+                      backgroundColor: '#F6F7F8',
+                    }}
+                  >
+                    <h2 style={{ margin: '1rem', textAlign: 'left' }}>{course.name}</h2>
+                    <div style={{ margin: '1rem' }}>
+                      Progresso:{' '}
+                      {`${
+                        (user!.courses!.find(el => el._id === course._id)!.lesson / (course!.lessons!.length - 1)) * 100
+                      }%`}
+                    </div>
+                    <DefaultButton
+                      style={{ margin: '1rem' }}
+                      onClick={() => history.push(UrlPaths.course, { courseId: course._id })}
+                    >
+                      Continuar
                     </DefaultButton>
                   </div>
                 );
