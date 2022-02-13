@@ -1,8 +1,9 @@
-import { ILesson } from 'models';
+import { ICourse, ILesson } from 'models';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, DefaultButton } from '../../components';
-import { Technology } from '../../enums';
+import { Technology, UrlPaths } from '../../enums';
+import ApiService from '../../services/Api';
 
 export const CreateCourse = () => {
   const history = useHistory();
@@ -16,27 +17,23 @@ export const CreateCourse = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (whichSubmit === 'Add') return;
-    // const formData = new FormData();
-    // // formData.append('filename', selectedFile!);
-    // const videoId = await ApiService.uploadVideo(formData);
-    // const lessons: Partial<ILesson[]> = [];
-    // lessons.push({
-    //   lessonName: 'a' as unknown as string,
-    //   lessonDescription: 'b' as unknown as string,
-    //   videoName: videoId as unknown as string,
-    //   videoPath: videoId as unknown as string,
-    //   videoDuration: 'any',
-    // } as any);
-    // const data = {
-    //   name,
-    //   description,
-    //   details: [details],
-    //   technologies: technologies,
-    //   lessons,
-    //   image: 'image',
-    // };
-    // await ApiService.createCourse(data as unknown as ICourse);
-    // history.push(UrlPaths.courses);
+    const formData = new FormData();
+
+    for (const lesson of lessons!) {
+      formData.append('filename', lesson.videoPath!);
+      const videoId = await ApiService.uploadVideo(formData);
+    }
+
+    const data = {
+      name,
+      description,
+      details: [details],
+      technologies: technologies,
+      lessons,
+      image: 'image',
+    };
+    await ApiService.createCourse(data as unknown as ICourse);
+    history.push(UrlPaths.courses);
   };
 
   return (
@@ -81,20 +78,47 @@ export const CreateCourse = () => {
             <option value={el}>{el}</option>
           ))}
         </select>
-        {lessons.map(x => (
+        {lessons.map((x, index) => (
           <>
+            <div>{`Aula ${index}`}</div>
             <input
               type={'text'}
               placeholder={'Nome da Aula'}
-              // value={lessonName}
-              // onChange={e => setLessonName(e.target.value)}
+              value={lessons[index].lessonName || ''}
+              onChange={e => {
+                lessons[index].lessonName = e.target.value;
+                setLessons([...lessons]);
+              }}
               style={{ margin: '0.5rem' }}
             />
             <input
               type={'text'}
-              placeholder={'Descrição da aula'}
-              // value={lessonDescription}
-              // onChange={e => setLessonDescription(e.target.value)}
+              placeholder={'Imagem da Aula'}
+              value={lessons[index].lessonImage || ''}
+              onChange={e => {
+                lessons[index].lessonImage = e.target.value;
+                setLessons([...lessons]);
+              }}
+              style={{ margin: '0.5rem' }}
+            />
+            <input
+              type={'text'}
+              placeholder={'Descrição da Aula'}
+              value={lessons[index].lessonDescription || ''}
+              onChange={e => {
+                lessons[index].lessonDescription = e.target.value;
+                setLessons([...lessons]);
+              }}
+              style={{ margin: '0.5rem' }}
+            />
+            <input
+              type={'file'}
+              placeholder={'Vídeo'}
+              value={lessons[index].videoPath || ''}
+              onChange={e => {
+                lessons[index].videoPath = e.target.value;
+                setLessons([...lessons]);
+              }}
               style={{ margin: '0.5rem' }}
             />
           </>
@@ -102,6 +126,7 @@ export const CreateCourse = () => {
         <button
           onClick={() => {
             setWhichSubmit('Add');
+            console.log(lessons);
             setLessons([...lessons, {}]);
           }}
         >

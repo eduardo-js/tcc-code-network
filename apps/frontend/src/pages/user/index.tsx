@@ -68,12 +68,14 @@ export const User = () => {
               Meus Cursos
             </DefaultButton>
           </div>
-          <div style={{ margin: '1rem' }}>
-            <DefaultButton onClick={() => showContent('vagas')} style={{ fontSize: '1.2rem' }} primary>
-              <RiSuitcaseLine style={{ marginRight: '1rem' }} />
-              Minhas Vagas
-            </DefaultButton>
-          </div>
+          {user && user.permission === 0 && (
+            <div style={{ margin: '1rem' }}>
+              <DefaultButton onClick={() => showContent('vagas')} style={{ fontSize: '1.2rem' }} primary>
+                <RiSuitcaseLine style={{ marginRight: '1rem' }} />
+                Minhas Vagas
+              </DefaultButton>
+            </div>
+          )}
         </div>
         <div style={{ flex: '1', backgroundColor: '#F2F7F2', textAlign: 'center', verticalAlign: 'center' }}>
           {content === 'cursos' &&

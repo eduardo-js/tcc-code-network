@@ -50,7 +50,7 @@ const uploadVideo = (req: Request, res: Response): void => {
     },
   });
 
-  // createReadStream(path).pipe(upload);
+  createReadStream(path).pipe(upload);
   res.send(upload.filename);
 };
 
