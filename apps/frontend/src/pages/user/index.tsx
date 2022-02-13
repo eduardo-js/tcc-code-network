@@ -40,27 +40,40 @@ export const User = () => {
   return (
     <Container style={{ textAlign: 'center', width: '100vh', height: '100vh' }}>
       <div style={{ display: 'flex', padding: '5rem', margin: '2rem' }}>
-        <div style={{ display: 'flex', flex: '.4', flexDirection: 'column', width: '25%', borderRight: '1px' }}>
+        <div
+          style={{
+            display: 'flex',
+            flex: '.4',
+            flexDirection: 'column',
+            width: '30%',
+            margin: '1rem',
+            padding: '.5rem',
+            border: 'solid',
+            borderWidth: '1px',
+            borderColor: 'black',
+            backgroundColor: '#F6F7F8',
+          }}
+        >
           <img
             src={`https://ui-avatars.com/api/?name=${user!.name!}`}
             style={{ borderRadius: '50%', marginBottom: '1rem' }}
-          ></img>
+          />
           <div>{user!._id!}</div>
           <div>{user!.name!}</div>
-          <div style={{ paddingTop: '3rem' }}>
-            <BsBook style={{ marginRight: '1rem', width: '1.2rem', height: 'auto' }} />
-            <button onClick={() => showContent('cursos')} style={{ fontSize: '1.2rem' }}>
+          <div style={{ paddingTop: '3rem', verticalAlign: 'middle' }}>
+            <DefaultButton onClick={() => showContent('cursos')} style={{ fontSize: '1.2rem' }} primary>
+              <BsBook style={{ marginRight: '1rem' }} />
               Meus Cursos
-            </button>
+            </DefaultButton>
           </div>
           <div style={{ margin: '1rem' }}>
-            <RiSuitcaseLine style={{ marginRight: '1rem', width: '1.2rem', height: 'auto' }} />
-            <button onClick={() => showContent('vagas')} style={{ fontSize: '1.2rem' }}>
+            <DefaultButton onClick={() => showContent('vagas')} style={{ fontSize: '1.2rem' }} primary>
+              <RiSuitcaseLine style={{ marginRight: '1rem' }} />
               Minhas Vagas
-            </button>
+            </DefaultButton>
           </div>
         </div>
-        <div style={{ flex: '1' }}>
+        <div style={{ flex: '1', backgroundColor: '#F2F7F2' }}>
           {content === 'cursos' &&
             (courseInfo?.length !== 0 ? (
               courseInfo.map(course => {
@@ -94,9 +107,9 @@ export const User = () => {
             ) : (
               <>
                 <img src={NotFound} style={{ width: '80%', height: '80%' }}></img>
-                <h1 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
+                <h3 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
                   Parece que não tem nada por aqui, cadastre-se em uma de nossas vagas!
-                </h1>
+                </h3>
               </>
             ))}
         </div>
