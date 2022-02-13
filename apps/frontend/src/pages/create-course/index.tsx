@@ -1,9 +1,8 @@
-import { ICourse, ILesson } from 'models';
+import { ILesson } from 'models';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, DefaultButton } from '../../components';
-import { UrlPaths } from '../../enums';
-import ApiService from '../../services/Api';
+import { Technology } from '../../enums';
 
 export const CreateCourse = () => {
   const history = useHistory();
@@ -11,34 +10,33 @@ export const CreateCourse = () => {
   const [description, setDescription] = useState('');
   const [details, setDetails] = useState('');
   const [technologies, setTechnologies] = useState('');
-  const [lessonName, setLessonName] = useState('');
-  const [lessonDescription, setLessonDescription] = useState('');
-  const [selectedFile, setSelectedFile] = useState('');
+  const [lessons, setLessons] = useState<Partial<ILesson>[]>([]);
+  const [whichSubmit, setWhichSubmit] = useState<string>('');
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const formData = new FormData();
-    formData.append('filename', selectedFile!);
-    const videoId = await ApiService.uploadVideo(formData);
-    const lessons: Partial<ILesson[]> = [];
-    lessons.push({
-      lessonName: 'a' as unknown as string,
-      lessonDescription: 'b' as unknown as string,
-      videoName: videoId as unknown as string,
-      videoPath: videoId as unknown as string,
-      videoDuration: 'any',
-    } as any);
-    const data = {
-      name,
-      description,
-      details: [details],
-      technologies: 'JavaScript',
-      lessons,
-      image: 'image',
-    };
-
-    await ApiService.createCourse(data as unknown as ICourse);
-    history.push(UrlPaths.courses);
+    if (whichSubmit === 'Add') return;
+    // const formData = new FormData();
+    // // formData.append('filename', selectedFile!);
+    // const videoId = await ApiService.uploadVideo(formData);
+    // const lessons: Partial<ILesson[]> = [];
+    // lessons.push({
+    //   lessonName: 'a' as unknown as string,
+    //   lessonDescription: 'b' as unknown as string,
+    //   videoName: videoId as unknown as string,
+    //   videoPath: videoId as unknown as string,
+    //   videoDuration: 'any',
+    // } as any);
+    // const data = {
+    //   name,
+    //   description,
+    //   details: [details],
+    //   technologies: technologies,
+    //   lessons,
+    //   image: 'image',
+    // };
+    // await ApiService.createCourse(data as unknown as ICourse);
+    // history.push(UrlPaths.courses);
   };
 
   return (
@@ -77,31 +75,43 @@ export const CreateCourse = () => {
           onChange={e => setDetails(e.target.value)}
           style={{ margin: '0.5rem' }}
         />
-        <input
-          type={'text'}
-          placeholder={'Tecnologia'}
-          value={technologies}
-          onChange={e => setTechnologies(e.target.value)}
-          style={{ margin: '0.5rem' }}
-        />
+        <label htmlFor="Tecnologia">Escolha a tecnologia</label>
+        <select name="Tecnologia" onChange={e => setTechnologies(e.target.value)}>
+          {Object.values(Technology).map(el => (
+            <option value={el}>{el}</option>
+          ))}
+        </select>
+        {lessons.map(x => (
+          <>
+            <input
+              type={'text'}
+              placeholder={'Nome da Aula'}
+              // value={lessonName}
+              // onChange={e => setLessonName(e.target.value)}
+              style={{ margin: '0.5rem' }}
+            />
+            <input
+              type={'text'}
+              placeholder={'Descrição da aula'}
+              // value={lessonDescription}
+              // onChange={e => setLessonDescription(e.target.value)}
+              style={{ margin: '0.5rem' }}
+            />
+          </>
+        ))}
+        <button
+          onClick={() => {
+            setWhichSubmit('Add');
+            setLessons([...lessons, {}]);
+          }}
+        >
+          Add
+        </button>
 
-        <input
-          type={'text'}
-          placeholder={'Nome da Aula'}
-          value={lessonName}
-          onChange={e => setLessonName(e.target.value)}
-          style={{ margin: '0.5rem' }}
-        />
-        <input
-          type={'text'}
-          placeholder={'Descrição da aula'}
-          value={lessonDescription}
-          onChange={e => setLessonDescription(e.target.value)}
-          style={{ margin: '0.5rem' }}
-        />
-
-        <input type="file" onChange={(e: any) => setSelectedFile(e.target!.files[0])} style={{ margin: '0.5rem' }} />
-        <DefaultButton style={{ margin: '0.5rem' }}> Enviar</DefaultButton>
+        <DefaultButton style={{ margin: '0.5rem' }} onClick={() => setWhichSubmit('submit')}>
+          {' '}
+          Enviar
+        </DefaultButton>
       </form>
     </Container>
   );
