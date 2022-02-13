@@ -12,5 +12,6 @@ export type ICourse = {
   createdAt: Date;
   updatedAt: Date;
   numberOfGraduates?: number;
+  numberOfEnrolled: number;
   lessons?: ILesson[];
 };
