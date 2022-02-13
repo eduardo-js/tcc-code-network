@@ -8,7 +8,7 @@ export const JobSchema = new Schema({
   duration: { type: Date },
   endDate: { type: Date },
   image: { type: String },
-  jobOwner: { type: String },
+  owner: { type: String },
   name: { type: String },
   payment: { type: String },
   requirements: [{ type: String }],

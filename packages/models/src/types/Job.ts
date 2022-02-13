@@ -8,7 +8,7 @@ export type IJob = {
   duration: Date;
   endDate: Date;
   image: string;
-  jobOwner: string;
+  owner: string;
   name: string;
   payment: string;
   requirements: string[];

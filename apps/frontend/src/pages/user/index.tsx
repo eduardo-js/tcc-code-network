@@ -110,19 +110,38 @@ export const User = () => {
             ) : (
               <>
                 <img src={NotFound} style={{ width: '80%', height: '80%' }}></img>
-                <h1 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
+                <h3 style={{ margin: '1rem', textAlign: 'center', marginTop: '3%' }}>
                   Parece que não tem nada por aqui, cadastre-se em um de nossos cursos!
-                </h1>
+                </h3>
               </>
             ))}
           {content === 'vagas' &&
             (jobInfo?.length !== 0 ? (
               jobInfo.map(job => {
                 return (
-                  <>
-                    <div>{job.name}</div>
-                    <div>{job.description}</div>
-                  </>
+                  <div
+                    style={{
+                      margin: '1rem',
+                      borderBottom: 'solid',
+                      borderBottomWidth: '1px',
+                      borderBottomColor: 'grey',
+                      backgroundColor: '#F6F7F8',
+                    }}
+                  >
+                    <h2 style={{ margin: '1rem', textAlign: 'left' }}>{job.name}</h2>
+                    <h4>{job.description}</h4>
+                    {user!.jobs!.find(el => el._id === job._id)!.status === 'AWAITING' ? (
+                      <div>{job.owner} ainda está analisando seu perfil </div>
+                    ) : user!.jobs!.find(el => el._id === job._id)!.status === 'REJECTED' ? (
+                      <div>Que pena, {job.owner} decidiu não seguir com a sua candidatura</div>
+                    ) : (
+                      <div style={{ margin: '1rem' }}>
+                        {' '}
+                        <h3 style={{ color: 'green' }}> Parabéns!</h3> {job.owner} vai te contatar via email para seguir
+                        com a sua candidatura
+                      </div>
+                    )}
+                  </div>
                 );
               })
             ) : (
