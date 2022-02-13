@@ -5,10 +5,10 @@ export const Register = () => {
   return (
     <Form
       small={false}
-      lightBg={false}
+      lightBg={true}
       imgStart={false}
-      lightTitle={true}
-      errorLightBg={false}
+      lightTitle={false}
+      errorLightBg={true}
       errorMessage={''}
       type="submit"
       lightText={false}

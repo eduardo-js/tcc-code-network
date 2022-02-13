@@ -24,7 +24,7 @@ export default function validateForm({ name, email, password, confirmPass }: Val
   if (!confirmPass) {
     return 'Confirmar senha não pode ser vazia!';
   } else if (confirmPass !== password) {
-    return 'Senhas não são iguais!!';
+    return 'Senhas não são iguais!';
   }
   return null;
 }
