@@ -1,4 +1,4 @@
-import { ICourse, IJob } from 'models';
+import { ICourse, IJob, IUser } from 'models';
 import React, { useEffect, useState } from 'react';
 import { BsBook } from 'react-icons/bs';
 import { RiSuitcaseLine } from 'react-icons/ri';
@@ -11,6 +11,7 @@ import ApiService from '../../services/Api';
 
 export const User = () => {
   const { user } = useAuth();
+  const [userData, setUser] = useState<IUser>(user!);
   const history = useHistory();
   const [content, showContent] = useState<string>('cursos');
   const [courseInfo, setCourseInfo] = useState<ICourse[]>([]);
@@ -19,6 +20,7 @@ export const User = () => {
   useEffect(() => {
     async function initialize() {
       const userData = await ApiService.getUser(user!._id!);
+      setUser(userData);
       const courses = [];
       if (userData.courses) {
         for (const course of userData.courses) {
@@ -55,11 +57,11 @@ export const User = () => {
           }}
         >
           <img
-            src={`https://ui-avatars.com/api/?name=${user!.name!}`}
+            src={`https://ui-avatars.com/api/?name=${userData!.name!}`}
             style={{ borderRadius: '50%', marginBottom: '1rem' }}
           />
-          <div>{user!._id!}</div>
-          <div>{user!.name!}</div>
+          <div>{userData && userData!._id!}</div>
+          <div>{userData && userData!.name!}</div>
           <div style={{ paddingTop: '3rem', verticalAlign: 'middle' }}>
             <DefaultButton onClick={() => showContent('cursos')} style={{ fontSize: '1.2rem' }} primary>
               <BsBook style={{ marginRight: '1rem' }} />
@@ -91,7 +93,9 @@ export const User = () => {
                     <div style={{ margin: '1rem' }}>
                       Progresso:{' '}
                       {`${
-                        (user!.courses!.find(el => el._id === course._id)!.lesson / (course!.lessons!.length - 1)) * 100
+                        (userData!.courses!.find(el => el._id === course._id)!.lesson! /
+                          (course!.lessons!.length - 1)) *
+                        100
                       }%`}
                     </div>
                     <DefaultButton
