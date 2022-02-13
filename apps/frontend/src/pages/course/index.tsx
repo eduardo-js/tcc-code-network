@@ -88,7 +88,7 @@ export const Course = () => {
         {course &&
           (lessonNumber === course!.lessons!.length! - 1 ||
             user?.courses?.find(course => course._id === courseId)?.lesson === course!.lessons!.length! - 1) && (
-            <DefaultButton>Fazer Prova</DefaultButton>
+            <DefaultButton>Tirar certificado</DefaultButton>
           )}
       </div>
     </>
