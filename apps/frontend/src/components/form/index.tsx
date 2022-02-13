@@ -46,7 +46,7 @@ export const Form = ({
   const [_id, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPass, setConfirmPass] = useState('');
-  const [isTeacher, setIsTeacher] = useState(false);
+  const [permission, setPermission] = useState(0);
   const [telephone, setTelephone] = useState('');
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState<string | null>(null);
@@ -65,14 +65,14 @@ export const Form = ({
     setEmail(_id);
     setPassword(password);
     setConfirmPass(confirmPass);
-    setIsTeacher(isTeacher);
+    setPermission(permission);
     setError(null);
     const data = {
       _id: _id,
       password: password,
       name: name,
       telephone: telephone,
-      permission: isTeacher ? 1 : 0,
+      permission: permission,
     };
     try {
       await ApiService.registerUser(data);
@@ -95,30 +95,35 @@ export const Form = ({
       value: name,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setName(e.target.value),
       type: 'text',
+      placeholder: 'Insira seu Nome',
     },
     {
       label: 'Email',
       value: _id,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setEmail(e.target.value),
       type: '_id',
+      placeholder: 'Insira seu Email',
     },
     {
       label: 'Telephone',
       value: telephone,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setTelephone(e.target.value),
       type: 'telephone',
+      placeholder: 'Insira seu Telefone',
     },
     {
       label: 'Senha',
       value: password,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setPassword(e.target.value),
       type: 'password',
+      placeholder: 'Insira sua Senha',
     },
     {
-      label: 'Repetir Senha',
+      label: 'Senha',
       value: confirmPass,
       onChange: (e: React.ChangeEvent<HTMLInputElement>) => setConfirmPass(e.target.value),
       type: 'password',
+      placeholder: 'Repita sua Senha',
     },
   ];
   return (
@@ -138,28 +143,31 @@ export const Form = ({
             <FormWrapper lightText={lightText} onSubmit={handleSubmit}>
               {formData.map((el, index) => (
                 <FormInputRow key={index}>
-                  <FormLabel>{el.label}</FormLabel>
-                  <FormInput
-                    type={el.type}
-                    placeholder={`Enter your ${el.label.toLocaleLowerCase()}`}
-                    value={el.value}
-                    onChange={el.onChange}
-                  />
+                  <FormLabel style={{ color: 'black' }}>{el.label}</FormLabel>
+                  <FormInput type={el.type} placeholder={`${el.placeholder}`} value={el.value} onChange={el.onChange} />
                 </FormInputRow>
               ))}
               <FormInputRow>
-                <FormLabel>Sou Professor</FormLabel>
+                <FormLabel style={{ color: 'black' }}>Sou um professor</FormLabel>
                 <FormInput
                   type="checkbox"
+                  checked={permission === 1}
                   value="true"
                   onClick={() => {
-                    setIsTeacher(!isTeacher);
+                    permission === 1 ? setPermission(0) : setPermission(1);
+                  }}
+                />
+                <FormLabel style={{ color: 'black' }}>Sou uma empresa</FormLabel>
+                <FormInput
+                  type="checkbox"
+                  checked={permission === 2}
+                  value="true"
+                  onClick={() => {
+                    permission === 2 ? setPermission(0) : setPermission(2);
                   }}
                 />
               </FormInputRow>
-              <DefaultButton primary type="submit">
-                CADASTRAR
-              </DefaultButton>
+              <DefaultButton type="submit">cadastrar</DefaultButton>
             </FormWrapper>
             {error && (
               <FormMessage
