@@ -7,6 +7,7 @@ export type CourseProgress = {
 
 export type JobProgress = {
   _id: string;
+  status: 'AWAITING' | 'REJECTED' | 'EXTERNAL_CONTACT';
 };
 
 export type IUser = {

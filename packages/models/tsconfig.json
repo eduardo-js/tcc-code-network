@@ -2,7 +2,7 @@
     "$schema": "https://json.schemastore.org/tsconfig",
     "display": "models",
     "compilerOptions": {
-        "target": "es6",
+        "target": "es5",
         "moduleResolution": "node",
         "composite": false,
         "declaration": true,

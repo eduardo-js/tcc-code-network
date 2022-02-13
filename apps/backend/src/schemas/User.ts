@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { Permission, Technology, IUser } from 'models';
+import { Permission, Technology, IUser, JobStep } from 'models';
 
 const CourseProgressSchema = new Schema({
   _id: { type: String, required: true },
@@ -7,6 +7,7 @@ const CourseProgressSchema = new Schema({
 });
 const JobProgressSchema = new Schema({
   _id: { type: String, required: true },
+  status: { type: String, enum: JobStep, required: true }
 });
 
 export const UserSchema = new Schema(

@@ -1,0 +1,5 @@
+export enum JobStep {
+  AWAITING = 'AWAITING',
+  REJECTED = 'REJECTED',
+  EXTERNAL_CONTACT = 'EXTERNAL_CONTACT',
+}

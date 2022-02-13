@@ -1,4 +1,4 @@
-import { Technology } from 'models';
+import { JobStep, Technology } from 'models';
 import { celebrate, Segments, Joi } from 'celebrate';
 
 export const validateLoginData = celebrate({
@@ -55,6 +55,11 @@ export const validatePatchUser = celebrate({
         lesson: Joi.number(),
       }),
     ),
-    jobs: Joi.array().items(Joi.string()),
+    jobs: Joi.array().items(
+      Joi.object().keys({
+        _id: Joi.string(),
+        status: Joi.string().valid(...Object.values(JobStep)),
+      }),
+    ),
   }),
 });

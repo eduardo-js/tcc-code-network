@@ -1,7 +1,7 @@
 import { LeanDocument } from 'mongoose';
 import { AuthService } from '../../services';
 import { UserRepository } from '../../repositories';
-import { CourseProgress, IUser } from 'models';
+import { CourseProgress, IUser, JobProgress } from 'models';
 import { NotCreated, NotFound, Unauthorized } from '../../errors';
 import { Utils } from '../../utils';
 
@@ -40,11 +40,12 @@ export default class UserService {
 
   async patchUser(_id: string, body: Partial<IUser>): Promise<void> {
     if (body.courses) this.patchUserCourse(_id, body.courses[0]);
+    if (body.jobs) this.patchUserJobs(_id, body.jobs[0])
   }
 
   async patchUserCourse(_id: string, courseProgress: CourseProgress): Promise<void> {
     const user = await this.userRepository.findOne(_id, { courses: { $elemMatch: { _id: courseProgress._id } } });
-    if (!user) {
+    if (!user.courses) {
       await this.userRepository.findByIdAndUpdate(_id, { $push: { courses: { ...courseProgress } } });
       return;
     }
@@ -52,6 +53,18 @@ export default class UserService {
     await this.userRepository.findOneAndUpdate(
       { _id, courses: { $elemMatch: { _id: courseProgress._id } } },
       { 'courses.$.lesson': courseProgress.lesson },
+    );
+  }
+
+  async patchUserJobs(_id: string, jobProgress: JobProgress): Promise<void> {
+    const user = await this.userRepository.findOne(_id, { jobs: { $elemMatch: { _id: jobProgress._id } } });
+    if (!user.jobs) {
+      await this.userRepository.findByIdAndUpdate(_id, { $push: { jobs: { ...jobProgress } } });
+      return;
+    }
+    await this.userRepository.findOneAndUpdate(
+      { _id, jobs: { $elemMatch: { _id: jobProgress._id } } },
+      { 'jobs.$.status': jobProgress.status },
     );
   }
 

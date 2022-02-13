@@ -20,7 +20,12 @@ export const Jobs = () => {
   const subscribe = async (jobId: any) => {
     try {
       const body = {
-        jobs: jobId,
+        jobs: [
+          {
+            _id: jobId,
+            status: 'AWAITING' as const,
+          },
+        ],
       };
       await ApiService.patchUser(body);
     } catch (error) {
