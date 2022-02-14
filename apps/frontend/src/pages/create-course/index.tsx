@@ -13,24 +13,27 @@ export const CreateCourse = () => {
   const [technologies, setTechnologies] = useState('');
   const [lessons, setLessons] = useState<Partial<ILesson>[]>([]);
   const [whichSubmit, setWhichSubmit] = useState<string>('');
+  const [fileList, setFileList] = useState<File[]>([]);
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (whichSubmit === 'Add') return;
+    console.log(lessons);
     const formData = new FormData();
 
-    for (const lesson of lessons!) {
+    for (const [index, lesson] of lessons!.entries!()) {
       formData.append('filename', lesson.videoPath!);
-      const videoId = await ApiService.uploadVideo(formData);
+      const { videoId } = await ApiService.uploadVideo(formData);
+      lessons[index].videoPath = videoId;
     }
 
     const data = {
       name,
+      image,
       description,
       details: [details],
       technologies: technologies,
       lessons,
-      image: 'image',
     };
     await ApiService.createCourse(data as unknown as ICourse);
     history.push(UrlPaths.courses);
@@ -72,6 +75,7 @@ export const CreateCourse = () => {
           onChange={e => setDetails(e.target.value)}
           style={{ margin: '0.5rem' }}
         />
+        <input type={'file'} value={details} onChange={e => setDetails(e.target.value)} style={{ margin: '0.5rem' }} />
         <label htmlFor="Tecnologia">Escolha a tecnologia</label>
         <select name="Tecnologia" onChange={e => setTechnologies(e.target.value)}>
           {Object.values(Technology).map(el => (
@@ -92,7 +96,7 @@ export const CreateCourse = () => {
               style={{ margin: '0.5rem' }}
             />
             <input
-              type={'text'}
+              type={'file'}
               placeholder={'Imagem da Aula'}
               value={lessons[index].lessonImage || ''}
               onChange={e => {
@@ -116,8 +120,11 @@ export const CreateCourse = () => {
               placeholder={'Vídeo'}
               value={lessons[index].videoPath || ''}
               onChange={e => {
-                lessons[index].videoPath = e.target.value;
-                setLessons([...lessons]);
+                setFileList([...e!.target!.files!]);
+                // console.log(e.target.files);
+                // lessons[index].videoPath = e?.target?.files?[index] || '';
+                // setLessons([...lessons]);
+                // console.log(lessons);
               }}
               style={{ margin: '0.5rem' }}
             />
@@ -127,7 +134,16 @@ export const CreateCourse = () => {
           onClick={() => {
             setWhichSubmit('Add');
             console.log(lessons);
-            setLessons([...lessons, {}]);
+            setLessons([
+              ...lessons,
+              {
+                lessonName: '',
+                lessonDescription: '',
+                videoDuration: '',
+                videoName: '',
+                videoPath: '',
+              },
+            ]);
           }}
         >
           Add

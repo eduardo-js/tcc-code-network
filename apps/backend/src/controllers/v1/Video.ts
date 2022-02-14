@@ -51,7 +51,7 @@ const uploadVideo = (req: Request, res: Response): void => {
   });
 
   createReadStream(path).pipe(upload);
-  res.send(upload.filename);
+  res.send({ videoId: upload.filename });
 };
 
 const VideoController = {
