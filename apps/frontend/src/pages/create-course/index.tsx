@@ -11,6 +11,7 @@ export const CreateCourse = () => {
   const [description, setDescription] = useState('');
   const [details, setDetails] = useState('');
   const [technologies, setTechnologies] = useState('');
+  const [courseImage, setCourseImage] = useState('');
   const [lessons, setLessons] = useState<Partial<ILesson>[]>([]);
   const [whichSubmit, setWhichSubmit] = useState<string>('');
   const [fileList, setFileList] = useState<File[]>([]);
@@ -18,18 +19,26 @@ export const CreateCourse = () => {
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (whichSubmit === 'Add') return;
-    console.log(lessons);
+    console.log(fileList);
+
     const formData = new FormData();
-
     for (const [index, lesson] of lessons!.entries!()) {
-      formData.append('filename', lesson.videoPath!);
-      const { videoId } = await ApiService.uploadVideo(formData);
-      lessons[index].videoPath = videoId;
+      if (index === 0) continue;
+      if (index % 2 !== 0) {
+        formData.append('filename', lesson.videoPath!);
+        const { videoId } = await ApiService.uploadVideo(formData);
+        lessons[index].videoPath = videoId;
+      } else {
+        lessons[index].lessonImage = btoa(
+          new Uint8Array(await fileList[0].arrayBuffer()).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+        );
+      }
     }
-
     const data = {
       name,
-      image,
+      image: btoa(
+        new Uint8Array(await fileList[0].arrayBuffer()).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+      ),
       description,
       details: [details],
       technologies: technologies,
@@ -75,7 +84,18 @@ export const CreateCourse = () => {
           onChange={e => setDetails(e.target.value)}
           style={{ margin: '0.5rem' }}
         />
-        <input type={'file'} value={details} onChange={e => setDetails(e.target.value)} style={{ margin: '0.5rem' }} />
+        <label htmlFor="courseImage">Escolha a foto principal do curso</label>
+        <input
+          type={'file'}
+          value={details}
+          name="courseImage"
+          onChange={e => {
+            fileList.push(e!.target!.files![0]!);
+            setFileList([...fileList]);
+            console.log(e.target.files);
+          }}
+          style={{ margin: '0.5rem' }}
+        />
         <label htmlFor="Tecnologia">Escolha a tecnologia</label>
         <select name="Tecnologia" onChange={e => setTechnologies(e.target.value)}>
           {Object.values(Technology).map(el => (
@@ -95,13 +115,16 @@ export const CreateCourse = () => {
               }}
               style={{ margin: '0.5rem' }}
             />
+            <label htmlFor={`courseImage{index}`}>Escolha a foto da aula {index}</label>
             <input
               type={'file'}
               placeholder={'Imagem da Aula'}
+              name={`courseImage{index}`}
               value={lessons[index].lessonImage || ''}
               onChange={e => {
-                lessons[index].lessonImage = e.target.value;
-                setLessons([...lessons]);
+                fileList.push(e!.target!.files![0]!);
+                setFileList([...fileList]);
+                console.log(e.target.files);
               }}
               style={{ margin: '0.5rem' }}
             />
@@ -115,16 +138,15 @@ export const CreateCourse = () => {
               }}
               style={{ margin: '0.5rem' }}
             />
+            <label htmlFor={`videoFile${index}`}>Escolha o arquivo de vídeo da aula {index}</label>
             <input
               type={'file'}
               placeholder={'Vídeo'}
-              value={lessons[index].videoPath || ''}
+              name={`videoFile${index}`}
               onChange={e => {
-                setFileList([...e!.target!.files!]);
-                // console.log(e.target.files);
-                // lessons[index].videoPath = e?.target?.files?[index] || '';
-                // setLessons([...lessons]);
-                // console.log(lessons);
+                fileList.push(e!.target!.files![0]!);
+                setFileList([...fileList]);
+                console.log(e.target.files);
               }}
               style={{ margin: '0.5rem' }}
             />
