@@ -22,7 +22,6 @@ export const validateCourseData = celebrate({
   [Segments.BODY]: Joi.object().keys({
     name: Joi.string().required(),
     description: Joi.string().required(),
-    details: Joi.array().required(),
     image: Joi.string().required(),
     technologies: Joi.string()
       .valid(...Object.values(Technology))
@@ -32,9 +31,9 @@ export const validateCourseData = celebrate({
         Joi.object().keys({
           lessonName: Joi.string(),
           lessonDescription: Joi.string().allow(''),
-          videoDuration: Joi.string().allow(''),
           videoName: Joi.string().allow(''),
           videoPath: Joi.string().allow(''),
+          lessonImage: Joi.string().allow(''),
         }),
       )
       .required(),

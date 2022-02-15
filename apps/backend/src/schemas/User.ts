@@ -7,7 +7,7 @@ const CourseProgressSchema = new Schema({
 });
 const JobProgressSchema = new Schema({
   _id: { type: String, required: true },
-  status: { type: String, enum: JobStep, required: true }
+  status: { type: String, enum: JobStep, required: true },
 });
 
 export const UserSchema = new Schema(

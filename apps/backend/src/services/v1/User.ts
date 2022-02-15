@@ -40,7 +40,7 @@ export default class UserService {
 
   async patchUser(_id: string, body: Partial<IUser>): Promise<void> {
     if (body.courses) this.patchUserCourse(_id, body.courses[0]);
-    if (body.jobs) this.patchUserJobs(_id, body.jobs[0])
+    if (body.jobs) this.patchUserJobs(_id, body.jobs[0]);
   }
 
   async patchUserCourse(_id: string, courseProgress: CourseProgress): Promise<void> {

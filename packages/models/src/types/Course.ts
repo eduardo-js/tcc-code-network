@@ -5,7 +5,6 @@ export type ICourse = {
   _id: string;
   name: string;
   description: string;
-  details: string[];
   hoursOfDuration?: string;
   image: string;
   technologies: Technology[];
