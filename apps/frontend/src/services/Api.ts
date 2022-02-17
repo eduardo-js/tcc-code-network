@@ -37,7 +37,7 @@ class ApiService {
   async getCourse(_id: string): Promise<ICourse> {
     return await this.client.get(`/v1/course/${_id}`);
   }
-  async createCourse(courseData: Partial<ICourse>): Promise<ICourse> {
+  async createCourse(courseData: Partial<ICourse> & { _id: string }): Promise<ICourse> {
     return await this.client.post(`/v1/course/create`, courseData);
   }
   async getJobs(): Promise<IJob[]> {

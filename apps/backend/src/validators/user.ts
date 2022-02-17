@@ -20,6 +20,7 @@ export const validateUserData = celebrate({
 
 export const validateCourseData = celebrate({
   [Segments.BODY]: Joi.object().keys({
+    _id: Joi.string().required(),
     name: Joi.string().required(),
     description: Joi.string().required(),
     image: Joi.string().required(),

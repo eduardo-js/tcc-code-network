@@ -1,11 +1,11 @@
 import { LeanDocument } from 'mongoose';
-import { CourseRepository } from '../../repositories';
+import { CourseRepository, UserRepository } from '../../repositories';
 import { ICourse, Permission } from 'models';
 import { NotFound, NotCreated, Unauthorized } from '../../errors';
 import { UserService } from '../../services';
 
 export type ICourseService = {
-  createCourse(data: ICourse): Promise<Record<string, string>>;
+  createCourse(data: ICourse): Promise<void>;
   getCourse(_id: string): Promise<LeanDocument<ICourse>>;
   getCourses(req: Request, res: Response): Promise<LeanDocument<ICourse[]>>;
   updateCourse(data: Partial<ICourse>, idUser: string, idCourse: string): Promise<void>;
@@ -15,15 +15,18 @@ export type ICourseService = {
 export default class CourseService implements ICourseService {
   courseRepository: CourseRepository;
   userService: UserService;
+  userRepository: UserRepository;
   constructor() {
     this.courseRepository = new CourseRepository();
     this.userService = new UserService();
+    this.userRepository = new UserRepository();
   }
 
-  createCourse = async (data: ICourse): Promise<Record<string, string>> => {
-    const course = await this.courseRepository.createCourse(data);
+  createCourse = async (data: ICourse & { _id: string }): Promise<void> => {
+    const { _id, ...rest } = data
+    const course = await this.courseRepository.createCourse(rest);
     if (!course) throw new NotCreated();
-    return { _id: course._id };
+    await this.userRepository.findByIdAndUpdate(_id, { $push: { ownership: course._id } })
   };
 
   getCourse = async (_id: string): Promise<LeanDocument<ICourse>> => {

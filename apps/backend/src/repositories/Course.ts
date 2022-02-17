@@ -9,7 +9,7 @@ export default class CourseRepository {
     this.model = Course;
   }
 
-  async createCourse(data: ICourse): Promise<ICourse> {
+  async createCourse(data: Partial<ICourse>): Promise<ICourse> {
     return this.model.create(data);
   }
   async getCourses(_id: Record<string, string> = {}): Promise<LeanDocument<ICourse[]>> {

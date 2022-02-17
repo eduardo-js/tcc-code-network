@@ -2,10 +2,12 @@ import { ICourse, ILesson } from 'models';
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { Container, DefaultButton } from '../../components';
+import { useAuth } from '../../contexts/Auth';
 import { Technology, UrlPaths } from '../../enums';
 import ApiService from '../../services/Api';
 
 export const CreateCourse = () => {
+  const { user } = useAuth();
   const history = useHistory();
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -33,6 +35,7 @@ export const CreateCourse = () => {
         );
     }
     const data = {
+      _id: user!._id!,
       name,
       image:
         `data:${fileList[0].type};base64,` +

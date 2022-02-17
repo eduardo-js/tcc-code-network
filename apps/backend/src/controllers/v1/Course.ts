@@ -17,8 +17,8 @@ class CourseController implements ICourseController {
   }
 
   createCourse = async (req: Request, res: Response): Promise<void> => {
-    const courseId = await this.courseService.createCourse(req.body);
-    res.send(courseId);
+    await this.courseService.createCourse(req.body);
+    res.status(201).end()
   };
 
   getCourse = async (req: Request, res: Response): Promise<void> => {
