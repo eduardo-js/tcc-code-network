@@ -1,5 +1,5 @@
 import { ICourse } from 'models';
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
 import { DefaultButton, InfoSection, InfoSectionProps } from '../../components';
@@ -45,7 +45,6 @@ export const Course = () => {
         <h2>{videoName}</h2>
         {videoId && (
           <video width="650" height="700px" controls muted>
-            {/* <source src={`http://localhost:4000/api/v1/video/?filename=${videoId}` } type="video/mp4"></source> */}
             <source
               src={`http://localhost:4000/api/v1/video/?filename=${videoId}&token=${token!}`}
               type="video/mp4"
@@ -88,13 +87,6 @@ export const Course = () => {
             return <InfoSection {...courseSection} />;
           },
         )}
-      <div style={{ margin: '1rem', textAlign: 'center' }}>
-        {course &&
-          (lessonNumber === course!.lessons!.length! - 1 ||
-            user?.courses?.find(course => course._id === courseId)?.lesson === course!.lessons!.length! - 1) && (
-            <DefaultButton>Tirar certificado</DefaultButton>
-          )}
-      </div>
     </>
   );
 };

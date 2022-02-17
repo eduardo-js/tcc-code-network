@@ -19,29 +19,26 @@ export const CreateCourse = () => {
     e.preventDefault();
     if (whichSubmit === 'Add') return;
     const formData = new FormData();
-    console.log(fileList);
     for await (const [index, lesson] of lessons!.entries!()) {
       formData.append('filename', fileList[index + 2]);
-      console.log(fileList[index + 2]);
-      console.log(fileList[index + 1]);
       const { videoId } = await ApiService.uploadVideo(formData);
       lessons[index].videoPath = videoId;
-      lessons[index].lessonImage = btoa(
-        new Uint8Array(await fileList[index + 1].arrayBuffer()).reduce(
-          (data, byte) => (data += String.fromCharCode(byte)),
-          `data:${fileList[index + 1].type};base64,`,
-        ),
-      );
-      console.log(lessons[index].lessonImage);
+      lessons[index].lessonImage =
+        `data:${fileList[index + 1].type};base64,` +
+        btoa(
+          new Uint8Array(await fileList[index + 1].arrayBuffer()).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            '',
+          ),
+        );
     }
     const data = {
       name,
-      image: btoa(
-        new Uint8Array(await fileList[0].arrayBuffer()).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          `data:${fileList[0].type};base64,`,
+      image:
+        `data:${fileList[0].type};base64,` +
+        btoa(
+          new Uint8Array(await fileList[0].arrayBuffer()).reduce((data, byte) => data + String.fromCharCode(byte), ''),
         ),
-      ),
       description,
       technologies: technologies,
       lessons,
