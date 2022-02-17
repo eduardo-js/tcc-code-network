@@ -101,10 +101,11 @@ export const User = () => {
                       }%`}
                     </div>
                     <DefaultButton
+                      disabled={user!.permission! !== 0}
                       style={{ margin: '1rem' }}
                       onClick={() => history.push(UrlPaths.course, { courseId: course._id })}
                     >
-                      Continuar
+                      {user!.permission! === 0 ? 'Continuar' : 'Editar'}
                     </DefaultButton>
                   </div>
                 );

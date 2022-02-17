@@ -19,21 +19,28 @@ export const CreateCourse = () => {
     e.preventDefault();
     if (whichSubmit === 'Add') return;
     const formData = new FormData();
+    console.log(fileList);
     for await (const [index, lesson] of lessons!.entries!()) {
       formData.append('filename', fileList[index + 2]);
+      console.log(fileList[index + 2]);
+      console.log(fileList[index + 1]);
       const { videoId } = await ApiService.uploadVideo(formData);
       lessons[index].videoPath = videoId;
       lessons[index].lessonImage = btoa(
         new Uint8Array(await fileList[index + 1].arrayBuffer()).reduce(
-          (data, byte) => data + String.fromCharCode(byte),
-          '',
+          (data, byte) => (data += String.fromCharCode(byte)),
+          `data:${fileList[index + 1].type};base64,`,
         ),
       );
+      console.log(lessons[index].lessonImage);
     }
     const data = {
       name,
       image: btoa(
-        new Uint8Array(await fileList[0].arrayBuffer()).reduce((data, byte) => data + String.fromCharCode(byte), ''),
+        new Uint8Array(await fileList[0].arrayBuffer()).reduce(
+          (data, byte) => data + String.fromCharCode(byte),
+          `data:${fileList[0].type};base64,`,
+        ),
       ),
       description,
       technologies: technologies,
@@ -77,10 +84,8 @@ export const CreateCourse = () => {
           type={'file'}
           name="courseImage"
           onChange={e => {
-            console.log(e!.target!.files![0]!);
             fileList.push(e!.target!.files![0]!);
             setFileList([...fileList]);
-            console.log(e.target.files);
           }}
           style={{ margin: '0.5rem' }}
         />
@@ -110,7 +115,6 @@ export const CreateCourse = () => {
               onChange={e => {
                 fileList.push(e!.target!.files![0]!);
                 setFileList([...fileList]);
-                console.log(e.target.files);
               }}
               style={{ margin: '0.5rem' }}
             />
@@ -131,7 +135,6 @@ export const CreateCourse = () => {
               onChange={e => {
                 fileList.push(e!.target!.files![0]!);
                 setFileList([...fileList]);
-                console.log(e.target.files);
               }}
               style={{ margin: '0.5rem' }}
             />
@@ -141,7 +144,6 @@ export const CreateCourse = () => {
           onClick={() => {
             setWhichSubmit('Add');
             setHeight(height + 15);
-            console.log(lessons);
             setLessons([
               ...lessons,
               {

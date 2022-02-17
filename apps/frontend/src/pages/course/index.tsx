@@ -7,7 +7,7 @@ import { useAuth } from '../../contexts/Auth';
 import ApiService from '../../services/Api';
 
 export const Course = () => {
-  const { user } = useAuth();
+  const { user, token } = useAuth();
   const location = useLocation();
   const { courseId } = location.state as Record<string, string>;
   const [course, setCourse] = useState<ICourse>();
@@ -45,7 +45,11 @@ export const Course = () => {
         <h2>{videoName}</h2>
         {videoId && (
           <video width="650" height="700px" controls muted>
-            <source src={`http://localhost:4000/api/v1/video/?filename=${videoId}`} type="video/mp4"></source>
+            {/* <source src={`http://localhost:4000/api/v1/video/?filename=${videoId}` } type="video/mp4"></source> */}
+            <source
+              src={`http://localhost:4000/api/v1/video/?filename=${videoId}&token=${token!}`}
+              type="video/mp4"
+            ></source>
           </video>
         )}
         <DefaultButton

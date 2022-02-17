@@ -6,6 +6,7 @@ import ApiService from '../services/Api';
 interface AuthContextData {
   signed: boolean;
   user: IUser | null;
+  token: string | null;
   Login(token: Partial<IUser>): Promise<void>;
   Logout(unauthorized?: boolean): void;
 }
@@ -28,6 +29,7 @@ const AuthContext: React.Context<AuthContextData> = createContext({} as AuthCont
 
 const AuthProvider: React.FC = ({ children }) => {
   const [user, setUser] = useState<IUser | null>(null);
+  const [token, setToken] = useState<string | null>(null);
 
   useEffect(() => {
     const storageToken = sessionStorage.getItem('@code-network:token');
@@ -44,6 +46,7 @@ const AuthProvider: React.FC = ({ children }) => {
     const authTokenInfo = decodeToken(token);
     ApiService.setBearer(token);
     const user = await ApiService.getUser(authTokenInfo._id);
+    setToken(token!);
     setUser(user);
     sessionStorage.setItem('@code-network:token', token);
     sessionStorage.setItem('@code-network:user', JSON.stringify(user));
@@ -55,7 +58,11 @@ const AuthProvider: React.FC = ({ children }) => {
     sessionStorage.removeItem('@code-network:token');
   };
 
-  return <AuthContext.Provider value={{ signed: Boolean(user), user, Login, Logout }}>{children}</AuthContext.Provider>;
+  return (
+    <AuthContext.Provider value={{ signed: Boolean(user), user, token, Login, Logout }}>
+      {children}
+    </AuthContext.Provider>
+  );
 };
 
 const useAuth = () => {
