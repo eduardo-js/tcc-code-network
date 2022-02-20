@@ -13,7 +13,8 @@
     "test": "jest --clearCache && jest --forceExit --detectOpenHandles --passWithNoTests",
     "clear_jest": "jest --clearCache",
     "test:watch": "jest --watch --forceExit --detectOpenHandles",
-    "test:coverage": "jest --collect-coverage"
+    "test:coverage": "jest --collect-coverage",
+    "heroku-postbuild": "turbo run build --scope=backend --include-dependencies --no-deps"
   },
   "dependencies": {
     "bcrypt": "^5.0.1",
