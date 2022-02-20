@@ -9,8 +9,8 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --parallel",
-    "deploy:frontend": "turbo run build --scope=app/frontend --include-dependencies --no-deps",
-    "deploy:backend": "turbo run build --scope=app/backend --include-dependencies --no-deps",
+    "deploy:frontend": "turbo run build --scope=frontend --include-dependencies --no-deps",
+    "deploy:backend": "turbo run build --scope=backend --include-dependencies --no-deps",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\""
   },
