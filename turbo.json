@@ -5,7 +5,8 @@
         "^build"
       ],
       "outputs": [
-        "dist/**"
+        "dist/**",
+        "public/dist/**"
       ]
     },
     "lint": {

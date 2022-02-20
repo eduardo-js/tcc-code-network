@@ -1,8 +1,15 @@
 {
   "name": "models",
   "version": "1.0.0",
-  "main": "src/index.ts",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "sideEffects": false,
+  "private": true,
   "license": "MIT",
+  "files": [
+    "src/**"
+  ],
   "scripts": {
     "build": "tsc"
   },
