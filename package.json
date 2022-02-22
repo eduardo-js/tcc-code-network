@@ -12,7 +12,8 @@
     "deploy:frontend": "turbo run build --scope=frontend --include-dependencies --no-deps",
     "deploy:backend": "turbo run build --scope=backend --include-dependencies --no-deps",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\""
+    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "docker:backend": "docker build -t backend -f dockerfile.backend ."
   },
   "devDependencies": {
     "prettier": "^2.5.1",
