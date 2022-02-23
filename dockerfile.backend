@@ -20,6 +20,6 @@ WORKDIR /app
 COPY --from=installer /app/ .
 COPY --from=builder /app/out/full/ .
 COPY .gitignore .gitignore
-RUN yarn turbo deploy:backend
-EXPOSE 4000 4000
-RUN cd apps/backend && yarn start
+CMD ["cd", "apps/backend"]
+WORKDIR /app/apps/backend
+CMD ["yarn", "start"]
