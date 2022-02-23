@@ -1,6 +1,7 @@
 {
+  "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
-    "target": "es6",
+    "target": "ES6",
     "module": "CommonJS",
     "sourceMap": true,
     "outDir": "dist",
@@ -12,7 +13,7 @@
     "baseUrl": ".",
     "paths": {
       "models/*": [
-        "../../packages/models/src/*"
+        "packages/models/src/*"
       ]
     }
   },
