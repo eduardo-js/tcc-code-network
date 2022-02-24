@@ -1,9 +1,12 @@
-name: Heroku Api 
+name: Heroku Client 
 
 on:
   push:
     branches:
       - main
+    paths:
+      - "apps/frontend/**"
+      - ".github/workflows/frontend.yml"
 
 jobs:
   build:
@@ -16,7 +19,7 @@ jobs:
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           heroku_api_key: ${{ secrets.HEROKU_AUTH_TOKEN }}
-          heroku_app_name: ${{ secrets.HEROKU_API_APP_NAME }}
+          heroku_app_name: ${{ secrets.HEROKU_FRONTEND_APP_NAME }}
           dockerfile_directory: ./
           dockerfile_name: dockerfile.frontend
           docker_options: "--no-cache"
