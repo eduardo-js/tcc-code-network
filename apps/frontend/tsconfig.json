@@ -1,8 +1,9 @@
 {
+  "extends": "./tsconfig.path.json",
   "$schema": "https://json.schemastore.org/tsconfig",
   "compilerOptions": {
     "target": "ES6",
-    "module": "CommonJS",
+    "module": "esnext",
     "lib": [
       "dom",
       "dom.iterable",
@@ -20,11 +21,7 @@
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
-    "paths": {
-      "models/*": [
-        "packages/models/src/*"
-      ]
-    },
+    "baseUrl": "."
   },
   "include": [
     "src"

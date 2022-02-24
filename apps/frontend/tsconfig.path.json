@@ -1,0 +1,9 @@
+{
+    "compilerOptions": {
+        "paths": {
+            "models/*": [
+                "packages/models/src/*"
+            ]
+        }
+    }
+}

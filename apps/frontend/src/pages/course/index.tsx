@@ -1,5 +1,5 @@
 import { ICourse } from 'models';
-import { useEffect, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import Modal from 'react-modal';
 import { useLocation } from 'react-router-dom';
 import { DefaultButton, InfoSection, InfoSectionProps } from '../../components';
