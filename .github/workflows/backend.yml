@@ -1,12 +1,13 @@
-name: Heroku Api 
+name: Heroku Api
 
 on:
   push:
     branches:
       - main
     paths:
-      - "apps/backend/**"
-      - ".github/workflows/backend.yml"
+      - 'apps/backend/**'
+      - '.github/workflows/backend.yml'
+      - 'packages/**'
 
 jobs:
   build:
@@ -14,13 +15,13 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v2
-      - name: Build, Push and Release a Docker container to Heroku. 
-        uses: gonuit/heroku-docker-deploy@v1.3.3 
+      - name: Build, Push and Release a Docker container to Heroku.
+        uses: gonuit/heroku-docker-deploy@v1.3.3
         with:
           email: ${{ secrets.HEROKU_EMAIL }}
           heroku_api_key: ${{ secrets.HEROKU_AUTH_TOKEN }}
           heroku_app_name: ${{ secrets.HEROKU_API_APP_NAME }}
           dockerfile_directory: ./
           dockerfile_name: dockerfile.backend
-          docker_options: "--no-cache"
+          docker_options: '--no-cache'
           process_type: web
