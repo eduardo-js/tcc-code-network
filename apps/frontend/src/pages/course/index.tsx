@@ -46,7 +46,7 @@ export const Course = () => {
         {videoId && (
           <video width="650" height="700px" controls muted>
             <source
-              src={`http://localhost:4000/api/v1/video/?filename=${videoId}&token=${token!}`}
+              src={`https://code-network-api.herokuapp.com/api/v1/video/?filename=${videoId}&token=${token!}`}
               type="video/mp4"
             ></source>
           </video>
