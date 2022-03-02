@@ -4,10 +4,9 @@ import { IUser, ICourse, AuthResponse, IJob, ITest } from 'models';
 class ApiService {
   client: AxiosInstance;
   static instance = new ApiService();
-
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.REACT_APP_API_URL,
+      baseURL: "https://code-network-api.herokuapp.com/api",
       headers: { 'Content-type': 'application/json;charset=utf-8', Accept: 'application/json;charset=utf-8' },
     });
     this.init();
