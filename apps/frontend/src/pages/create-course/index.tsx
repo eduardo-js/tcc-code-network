@@ -155,7 +155,7 @@ export const CreateCourse = () => {
             ]);
           }}
         >
-          Add
+          Adicionar Aula
         </button>
 
         <DefaultButton style={{ margin: '0.5rem' }} onClick={() => setWhichSubmit('submit')}>
