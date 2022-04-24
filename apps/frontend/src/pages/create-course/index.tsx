@@ -60,7 +60,6 @@ export const CreateCourse = () => {
           flexDirection: 'column',
           textAlign: 'center',
           padding: '1rem',
-          alignItems: 'center',
           margin: '2rem',
           height: `${height}vh`,
         }}
