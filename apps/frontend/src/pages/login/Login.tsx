@@ -107,16 +107,14 @@ export const LoginComponent = ({
                   <FormLabel style={{ color: 'black' }}>{el.label}</FormLabel>
                   <FormInput
                     type={el.type}
-                    placeholder={`Insira: ${el.label.toLocaleLowerCase()}`}
+                    placeholder={`${el.label.toLocaleLowerCase()}`}
                     value={el.value}
                     onChange={el.onChange}
                   />
                 </FormInputRow>
               ))}
 
-              <DefaultButton primary type="submit">
-                ENTRAR
-              </DefaultButton>
+              <DefaultButton type="submit">ENTRAR</DefaultButton>
             </FormWrapper>
             {error && (
               <FormMessage

@@ -9,10 +9,12 @@ export const homeSecondCard: InfoSectionProps = {
   headline: 'Testes seus conhecimentos',
   img: HomeSecondCard,
   imgStart: true,
-  lightBg: false,
-  lightText: true,
-  lightTextDesc: true,
+  lightBg: true,
+  lightText: false,
+  lightTextDesc: false,
+  lightTopLine: false,
   start: true,
   topLine: '<Simulados/>',
   redirect: '/tests',
+  primary: false
 };
