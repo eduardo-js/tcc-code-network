@@ -74,7 +74,7 @@ export const NavigationBar = () => {
               </NavItemBtn>
               <NavItemBtn>
                 <NavBtnLink to={UrlPaths.home}>
-                  <DefaultButton onClick={() => Logout()}>
+                  <DefaultButton primary onClick={() => Logout()}>
                     {' '}
                     <BiExit />{' '}
                   </DefaultButton>
